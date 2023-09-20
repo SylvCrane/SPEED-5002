@@ -1,0 +1,19 @@
+name: automationTest
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        next-version: [13.x]
+    
+    steps:
+      - name: Build
+        run: npm run build
