@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Nav.module.scss";
+import styles from "../Nav.module.scss";
 
 type Props = {
   children?: React.ReactNode;
