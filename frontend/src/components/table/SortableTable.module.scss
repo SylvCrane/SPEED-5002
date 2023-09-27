@@ -1,0 +1,25 @@
+// SortableTable.module.scss
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+
+  .th, .td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .th {
+    background-color: #f2f2f2;
+
+    .sortableLabel {
+      cursor: pointer;
+      color: #007bff; // This will make it look like a link
+      text-decoration: underline;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
