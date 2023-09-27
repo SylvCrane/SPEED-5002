@@ -5,7 +5,7 @@ export default function SubmissionForm() {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data:any) => {
-    const url = 'http://localhost:8082/api/researchPapers';
+    const url = 'https://speed-5002-backend.vercel.app/api/researchPapers';
 
     const realAuthors = data.authors.split(",")
     data.authors = realAuthors;
