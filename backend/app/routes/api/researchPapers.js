@@ -1,76 +1,114 @@
-// routes/api/researchPapers.js
+const express = require('express');
+const router = express.Router();
 
-const express = require('express')
-const router = express.Router()
+// Load models
+const ModerationQueue = require('../../models/moderationQueue');
+const ApprovedPaper = require('../../models/approvedPaper');
 
-// Load ResearchPaper model
-const ResearchPaper = require('../../model/researchPaper')
+const getModel = (type) => {
+    switch (type) {
+        case 'approved':
+            return ApprovedPaper;
+        case 'moderation':
+            return ModerationQueue;
+        default:
+            throw new Error('Invalid type');
+    }
+};
 
-// @route GET api/researchPapers/test
-// @description tests researchPapers route
-// @access Public
-router.get('/test', (req, res) => res.send('research paper route testing!'))
+router.get('/test', (req, res) => res.send('research paper route testing!'));
 
-// @route GET api/researchPapers
-// @description Get all research papers
-// @access Public
-router.get('/', (req, res) => {
-    ResearchPaper.find()
-        .then((papers) => res.json(papers))
-        .catch((err) =>
-            res.status(404).json({ nopapersfound: 'No Research Papers found' })
-        )
-})
+router.get('/:type', (req, res) => {
+    try {
+        const Model = getModel(req.params.type);
+        Model.find()
+            .then(papers => res.json(papers))
+            .catch(err => res.status(404).json({ error: err.message }));
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
 
-// @route GET api/researchPapers/:id
-// @description Get single research paper by id
-// @access Public
-router.get('/:id', (req, res) => {
-    ResearchPaper.findById(req.params.id)
-        .then((paper) => res.json(paper))
-        .catch((err) => res.status(404).json({ nopaperfound: 'No Research Paper found' }))
-})
+router.get('/:type/:id', (req, res) => {
+    try {
+        const Model = getModel(req.params.type);
+        Model.findById(req.params.id)
+            .then(paper => res.json(paper))
+            .catch(err => res.status(404).json({ error: err.message }));
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
 
-// @route POST api/researchPapers
-// @description add/save research paper
-// @access Public
-router.post('/', (req, res) => {
-    ResearchPaper.create(req.body)
-        .then((paper) => res.json({ msg: 'Research Paper added successfully' }))
-        .catch((err) => {
-            console.log(err);
-                res.status(400).json({ error: 'Unable to add this research paper' })
-            }
-        )
-})
+router.post('/:type', (req, res) => {
+    try {
+        const Model = getModel(req.params.type);
+        Model.create(req.body)
+            .then(paper => res.json({ msg: `Research Paper added to ${req.params.type} successfully` }))
+            .catch(err => res.status(400).json({ error: err.message }));
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
 
-// @route PUT api/researchPapers/:id
-// @description Update research paper
-// @access Public
-router.put('/:id', (req, res) => {
-    ResearchPaper.findByIdAndUpdate(req.params.id, req.body)
-        .then((paper) => res.json({ msg: 'Updated successfully' }))
-        .catch((err) =>
-            res.status(400).json({ error: 'Unable to update the Database' })
-        )
-})
+router.put('/:type/:id', (req, res) => {
+    try {
+        const Model = getModel(req.params.type);
+        Model.findByIdAndUpdate(req.params.id, req.body)
+            .then(paper => res.json({ msg: `Updated successfully in ${req.params.type}` }))
+            .catch(err => res.status(400).json({ error: err.message }));
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
 
-// @route DELETE api/researchPapers/:id
-// @description Delete research paper by id
-// @access Public
-router.delete('/:id', (req, res) => {
-    ResearchPaper.findByIdAndRemove(req.params.id, req.body)
-        .then((paper) => res.json({ msg: 'Research Paper entry deleted successfully' }))
-        .catch((err) => res.status(404).json({ error: 'No such a research paper' }))
-})
+router.delete('/:type/:id', (req, res) => {
+    try {
+        const Model = getModel(req.params.type);
+        Model.findByIdAndRemove(req.params.id)
+            .then(paper => res.json({ msg: `Research Paper entry deleted from ${req.params.type} successfully` }))
+            .catch(err => res.status(404).json({ error: err.message }));
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
 
-// @route DELETE api/researchPapers
-// @description Delete all research papers
-// @access Public
-router.delete('/', (req, res) => {
-    ResearchPaper.deleteMany({})
-      .then(() => res.json({ msg: 'All Research Paper entries deleted successfully' }))
-      .catch((err) => res.status(404).json({ error: 'An error occurred while deleting research papers' }));
-  })
+router.delete('/:type', (req, res) => {
+    try {
+        const Model = getModel(req.params.type);
+        Model.deleteMany({})
+            .then(() => res.json({ msg: `All Research Paper entries deleted from ${req.params.type} successfully` }))
+            .catch(err => res.status(404).json({ error: err.message }));
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
 
-module.exports = router
+router.put("/api/researchPapers/approve/:id", async (req, res) => {
+    const paperId = req.params.id;
+    try {
+        const paper = await ModerationQueue.findById(paperId);
+        if (!paper) {
+            return res.status(404).json({ msg: "Paper not found" });
+        }
+        const approvedPaper = new ApprovedPaper(paper.toObject());
+        await approvedPaper.save();
+        await ModerationQueue.findByIdAndDelete(paperId);
+        res.json({ msg: "Paper approved and moved." });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+router.delete("/api/researchPapers/deny/:id", async (req, res) => {
+    try {
+        await ModerationQueue.findByIdAndDelete(req.params.id);
+        res.json({ msg: "Paper denied and removed from moderation queue." });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+module.exports = router;

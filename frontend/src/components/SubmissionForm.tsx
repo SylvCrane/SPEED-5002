@@ -5,18 +5,18 @@ export default function SubmissionForm() {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data:any) => {
-    const url = 'https://speed-5002-backend.vercel.app/api/researchPapers';
+    const url = 'http://localhost:8082/api/researchPapers/moderation';
 
-    const realAuthors = data.authors.split(",")
+    const realAuthors = data.authors.split(",");
     data.authors = realAuthors;
     
-    data.description = ""
-    if (data.claims) {
+    data.description = "";
+    if (data.claim) { // changed from data.claims to data.claim
       data.description += "Claim: " + data.claim;
     }
 
     if (data.evidence) {
-      data.description += "Evidence: " + data.evidence;
+      data.description += (data.description ? " | " : "") + "Evidence: " + data.evidence;
     }
 
     const requestOptions = {

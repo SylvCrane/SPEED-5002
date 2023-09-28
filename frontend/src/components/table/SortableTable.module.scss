@@ -15,11 +15,10 @@
 
     .sortableLabel {
       cursor: pointer;
-      color: #007bff; // This will make it look like a link
-      text-decoration: underline;
       &:hover {
-        text-decoration: none;
+        text-decoration: underline;
       }
     }
+    
   }
 }
