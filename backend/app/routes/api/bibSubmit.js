@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const fsPromise = require('fs/promises');
 
 router.post('/', (req, res) => {
-    res.json({ msg: 'Research Paper added successfully' });
+    
+    const file = fsPromise.readFile(req.file, 'r');
+    console.log(file);
     
     //console.log(req);
 
