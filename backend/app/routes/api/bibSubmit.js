@@ -1,11 +1,11 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
 router.post('/', (req, res) => {
-
-    console.log('Made it to the backend');
+    res.json({ msg: 'Research Paper added successfully' });
+    
     //console.log(req);
 
-})
+});
 
 module.exports = router
