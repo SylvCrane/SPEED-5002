@@ -34,4 +34,13 @@ describe("Submitting a new article", () => {
     });
 });
 
+describe("Submitting bibtex", () => {
+
+    const coneolseSpy = jest.spyOn(console, "log");
+
+    const { getByPlaceholderText, getByRole } = render(<SubmissionForm />);
+    const bibtexFile = getByPlaceholderText("bibtexfield");
+    fireEvent.change(bibtexFile, { target: { value: "@article{Bibtex, title = "}})
+})
+
 
