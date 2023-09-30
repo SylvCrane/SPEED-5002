@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { data } from "autoprefixer";
 
 interface PaperInterface {
-  id: string;
+  _id: string;
   title: string;
   authors: string[];
   source: string;
@@ -47,24 +47,26 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
     }
   };
 
-  const handleApprove = async (id: string) => {
-    console.log("Approving ID:", id);
-    // try {
-    //   const response = await fetch(`http://localhost:8082/api/researchPapers/moderation/${id}`, {
-    //     method: "PUT"
-    //   });
-    //   const result = await response.json();
-    //   console.log(result);
-    //   fetchPapers(); // Refresh the list after approval
-    // } catch (error) {
-    //   console.error("Error approving paper:", error);
-    // }
-  };
+  const handleApprove = async (_id: string) => {
+    try {
+        const response = await fetch(`http://localhost:8082/api/researchPapers/approved/${_id}`, {
+    method: "PUT"
+});
+
+        console.log(response);
+        // const result = await response.json();
+        // console.log(result);
+        fetchPapers(); // Refresh the list after approval
+    } catch (error) {
+        console.error("Error approving paper:", error);
+    }
+};
+
 
   const handleDeny = async (id: string) => {
     console.log("Denying ID:", id);
     try {
-      const response = await fetch(`http://localhost:8082/api/researchPapers/deny/${id}`, {
+      const response = await fetch(`http://localhost:8082/api/researchPapers/moderation/${id}`, {
         method: "DELETE"
       });
       const result = await response.json();
@@ -88,10 +90,10 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
             authors: paper.authors.join(', '),
             action: (
               <div>
-                <button onClick={() => console.log(paper.id)}>Approve</button>
+                {/* <button onClick={() => console.log(paper._id)}>Approve</button> */}
 
-                {/* <button onClick={() => handleApprove(console.log "paper.id")}>Approve</button> */}
-                <button onClick={() => handleDeny(paper.id)}>Deny</button>
+                <button onClick={() => handleApprove((paper._id))}>Approve</button>
+                <button onClick={() => handleDeny(paper._id)}>Deny</button>
               </div>
             )
           }))}
