@@ -2,11 +2,15 @@ const express = require('express');
 const router = express.Router();
 const fsPromise = require('fs/promises');
 const ResearchPaper = require('../../model/researchPaper');
+const multer = require('multer');
 
-router.post('/', (req, res) => {
+const memoryBuff = multer.memoryStorage()
+const upload = multer({ storage: memoryBuff });
+
+router.post('/', upload.single('bibtex'), async (req, res) => {
     
     debugger;
-    const bibFile = fsPromise.readFile(req.files.bibtex.path, 'r');
+    const bibFile = await fsPromise.readFile(req.file.path, 'utf-8');
     const bibFileLines = bibFile.split('\n');
 
     let title =  '';
