@@ -10,8 +10,10 @@ const upload = multer({ storage: memoryBuff });
 router.post('/', upload.single('bibtex'), async (req, res) => {
     
     debugger;
-    const bibFile = await fsPromise.readFile(req.file.path, 'utf-8');
-    const bibFileLines = bibFile.split('\n');
+
+    const bibFile = req.file.buffer;
+    const bibFileTotal = bibFile.toString('utf-8');
+    const bibFileLines = bibFileTotal.split('\n');
 
     let title =  '';
     let authors = [];
