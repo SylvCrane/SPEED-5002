@@ -5,7 +5,8 @@ const ResearchPaper = require('../../model/researchPaper');
 
 router.post('/', (req, res) => {
     
-    const bibFile = fsPromise.readFile(req.file, 'r');
+    debugger;
+    const bibFile = fsPromise.readFile(req.file.path, 'r');
     const bibFileLines = bibFile.split('\n');
 
     let title =  '';
