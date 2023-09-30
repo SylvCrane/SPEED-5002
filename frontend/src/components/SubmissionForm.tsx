@@ -92,13 +92,13 @@ export default function SubmissionForm() {
         <input {...register("evidence")} placeholder="Evidence" />
       </p>
 
-      <input type="submit" />
+      <input type="submit" value="manualForm"/>
     </form>
     <br />
     <label>Submit using bibtex</label>
     <form onSubmit={handleBibSubmit} encType='multipart/form-data'>
         <input type="file" name="bibtex" accept=".txt" />
-        <input type="submit" />
+        <input type="submit" value = "bibForm"/>
     </form></></>
   );
 }

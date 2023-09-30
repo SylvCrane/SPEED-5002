@@ -1,0 +1,8 @@
+@article{test,
+  title={bibtitleTest},
+  author={bibauthorTest},
+  source={bibsourceTest},
+  publicationYear={2023},
+  doi={bibdoiTest},
+  description={descriptionTest},
+}
