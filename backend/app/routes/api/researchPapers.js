@@ -22,17 +22,6 @@ router.put("/approved/:id", async (req, res) => {
     }
 });
 
-// router.delete("/moderation/:id", async (req, res) => {
-//     try {
-//         await ModerationQueue.findByIdAndDelete(req.params.id);
-//         res.json({ msg: "Paper denied and removed from moderation queue." });
-//     } catch (err) {
-//         console.error(err.message);
-//         res.status(500).send("Server Error");
-//     }
-// });
-
-
 const getModel = (type) => {
     switch (type) {
         case 'approved':
@@ -120,26 +109,5 @@ router.delete('/:type', (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
-
-
-
-
-// router.put("/api/researchPapers/moderation/:id", async (req, res) => {
-//     console.log("here")
-//     const paperId = req.params.id;
-//     try {
-//         const paper = await ModerationQueue.findById(paperId);
-//         if (!paper) {
-//             return res.status(404).json({ msg: "Paper not found in moderation queue" });
-//         }
-//         const approvedPaper = new ApprovedPaper(paper.toObject());
-//         await approvedPaper.save();
-//         await ModerationQueue.findByIdAndDelete(paperId);
-//         res.json({ msg: "Paper approved and moved to the approved collection." });
-//     } catch (err) {
-//         console.error(err.message);
-//         res.status(500).send("Server Error");
-//     }
-// });
 
 module.exports = router;
