@@ -31,6 +31,7 @@ export default function SubmissionForm() {
       .then(response => response.json())
       .then(responseData => {
         console.log('Response:', responseData);
+        
       })
       .catch(error => {
         console.error('Error:', error);
