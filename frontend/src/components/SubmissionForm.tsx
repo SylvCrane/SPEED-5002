@@ -5,18 +5,22 @@ import axios from 'axios';
 export default function SubmissionForm() {
   const { register, handleSubmit } = useForm();
 
+  //The following function is used to process the submission of a Bib form. 
   const handleBibSubmit = (e: any) => {
     e.preventDefault();
+    
+    //Used in the console of the browser to verify the frontend is working as intended
     debugger;
     const url = 'https://speed-5002-backend.vercel.app/api/bibSubmit';
-    const urlLocal = 'http://localhost:8082/api/bibSubmit'
+    
+    //Data transferring itself is in a try-catch statement to catch errors separate to the post command itself
     try{
-        console.log("Made it here");
-
+      //FormData used to process file
         const bibData = new FormData();
         bibData.append('bibtex', e.target[0].files[0]);
     
-        axios.post(urlLocal, bibData, { headers: {'Content-Type': 'multipart/form-data'}})
+        //Axois post used as it allows for the use of multipart data, such as text files
+        axios.post(url, bibData, { headers: {'Content-Type': 'multipart/form-data'}})
         .then(res => {
           console.log(res);
         })
