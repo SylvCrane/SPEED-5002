@@ -9,12 +9,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    
     
     strategy:
       matrix:
         next-version: [13.x]
     
+
+
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Build
         run: npm run dev
         
