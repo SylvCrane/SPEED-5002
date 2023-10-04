@@ -15,9 +15,6 @@ jobs:
         next-version: [13.x]
     
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
       - name: Build
         run: |
           cd frontend
