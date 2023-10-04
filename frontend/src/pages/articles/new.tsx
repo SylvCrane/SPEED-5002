@@ -1,6 +1,9 @@
 import SubmissionForm from "@/components/SubmissionForm";
 import { FormEvent, useState } from "react";
 import formStyles from "../../../styles/Form.module.scss";
+import { useForm } from "react-hook-form";
+import { Readline } from "readline/promises";
+
 
 const NewDiscussion = () => {
   const [title, setTitle] = useState("");
@@ -44,12 +47,12 @@ const NewDiscussion = () => {
       })
     );
   };
-
-  // Return the full form
+  
 
   return (
 
-    <SubmissionForm />
+    <><SubmissionForm /></>
+
   //   <div className="container">
   //     <h1>New Article</h1>
   //     <form className={formStyles.form} onSubmit={submitNewArticle}>

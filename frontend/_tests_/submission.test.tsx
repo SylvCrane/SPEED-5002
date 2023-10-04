@@ -17,7 +17,7 @@ describe("Submitting a new article", () => {
     const doi = getByPlaceholderText("DOI");
     const claim = getByPlaceholderText("Claim");
     const evidence = getByPlaceholderText("Evidence");
-    const button = getByRole('button', { name: /submit/i });
+    const button = getByRole('button', { name: /manualForm/i });
 
     fireEvent.change(title, { target: { value: "TestTitle" } });
     fireEvent.change(authors, { target: { value: "TestAuthor" } });
@@ -33,5 +33,16 @@ describe("Submitting a new article", () => {
         consoleSpy.mockRestore();
     });
 });
+
+describe("Submitting bibtex", () => {
+
+    const coneolseSpy = jest.spyOn(console, "log");
+
+    const {  getByRole } = render(<SubmissionForm />);
+    const bibFileSubmit = getByRole('textbox');
+    const bibSubmission = getByRole('button', { name: /bibForm/i });
+    
+    
+})
 
 

@@ -1,8 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import axios from 'axios';
 
 export default function SubmissionForm() {
   const { register, handleSubmit } = useForm();
+
+  const handleBibSubmit = (e: any) => {
+    e.preventDefault();
+    debugger;
+    const url = 'https://speed-5002-backend.vercel.app/api/bibSubmit';
+    const urlLocal = 'http://localhost:8082/api/bibSubmit'
+    try{
+        console.log("Made it here");
+
+        const bibData = new FormData();
+        bibData.append('bibtex', e.target[0].files[0]);
+    
+        axios.post(urlLocal, bibData, { headers: {'Content-Type': 'multipart/form-data'}})
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log('The axios post is failing');
+          console.log(err);
+        })
+    }
+    catch (err)
+    {
+        console.log('Issue everywhere');
+    }
+  };
 
   const onSubmit = (data:any) => {
     const url = 'https://speed-5002-backend.vercel.app/api/researchPapers';
@@ -11,7 +38,7 @@ export default function SubmissionForm() {
     data.authors = realAuthors;
     
     data.description = ""
-    if (data.claims) {
+    if (data.claim) {
       data.description += "Claim: " + data.claim;
     }
 
@@ -38,13 +65,13 @@ export default function SubmissionForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <><><form onSubmit={handleSubmit(onSubmit)}>
       <input {...register("title")} placeholder="Title" />
-      
+
       <p>
         <input {...register("authors")} placeholder="Authors" />
       </p>
-      
+
       <p>
         <input {...register("source")} placeholder="Source" />
       </p>
@@ -56,7 +83,7 @@ export default function SubmissionForm() {
       <p>
         <input {...register("doi")} placeholder="DOI" />
       </p>
-      
+
       <p>
         <input {...register("claim")} placeholder="Claim" />
       </p>
@@ -65,7 +92,13 @@ export default function SubmissionForm() {
         <input {...register("evidence")} placeholder="Evidence" />
       </p>
 
-      <input type="submit" />
+      <input type="submit" value="manualForm"/>
     </form>
+    <br />
+    <label>Submit using bibtex</label>
+    <form onSubmit={handleBibSubmit} encType='multipart/form-data'>
+        <input type="file" name="bibtex" accept=".txt" />
+        <input type="submit" value = "bibForm"/>
+    </form></></>
   );
 }
