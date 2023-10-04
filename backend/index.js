@@ -9,8 +9,6 @@ const cors = require('cors');
 
 // routes
 const researchPapers = require('./app/routes/api/researchPapers');
-// const emailService = require('./app/routes/api/emailService');
-
 
 const app = express();
 
