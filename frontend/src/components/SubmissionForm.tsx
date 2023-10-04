@@ -6,34 +6,34 @@ export default function SubmissionForm() {
   const { register, handleSubmit } = useForm();
 
   //The following function is used to process the submission of a Bib form. 
-  const handleBibSubmit = (e: any) => {
-    e.preventDefault();
+  // const handleBibSubmit = (e: any) => {
+  //   e.preventDefault();
     
-    //Used in the console of the browser to verify the frontend is working as intended
-    debugger;
-    const url = 'https://speed-5002-backend.vercel.app/api/bibSubmit';
+  //   //Used in the console of the browser to verify the frontend is working as intended
+  //   debugger;
+  //   const url = 'https://speed-5002-backend.vercel.app/api/bibSubmit';
     
-    //Data transferring itself is in a try-catch statement to catch errors separate to the post command itself
-    try{
-      //FormData used to process file
-        const bibData = new FormData();
-        bibData.append('bibtex', e.target[0].files[0]);
+  //   //Data transferring itself is in a try-catch statement to catch errors separate to the post command itself
+  //   try{
+  //     //FormData used to process file
+  //       const bibData = new FormData();
+  //       bibData.append('bibtex', e.target[0].files[0]);
     
-        //Axois post used as it allows for the use of multipart data, such as text files
-        axios.post(url, bibData, { headers: {'Content-Type': 'multipart/form-data'}})
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log('The axios post is failing');
-          console.log(err);
-        })
-    }
-    catch (err)
-    {
-        console.log('Issue everywhere');
-    }
-  };
+  //       //Axois post used as it allows for the use of multipart data, such as text files
+  //       axios.post(url, bibData, { headers: {'Content-Type': 'multipart/form-data'}})
+  //       .then(res => {
+  //         console.log(res);
+  //       })
+  //       .catch(err => {
+  //         console.log('The axios post is failing');
+  //         console.log(err);
+  //       })
+  //   }
+  //   catch (err)
+  //   {
+  //       console.log('Issue everywhere');
+  //   }
+  // };
 
   const onSubmit = (data:any) => {
     const url = 'http://localhost:8082/api/researchPapers/moderation';
@@ -101,9 +101,11 @@ export default function SubmissionForm() {
     </form>
     <br />
     <label>Submit using bibtex</label>
-    <form onSubmit={handleBibSubmit} encType='multipart/form-data'>
+    {/* <form onSubmit={handleBibSubmit} encType='multipart/form-data'>
         <input type="file" name="bibtex" accept=".txt" />
         <input type="submit" value = "bibForm"/>
-    </form></></>
+    </form> */}
+    </>
+    </>
   );
 }
