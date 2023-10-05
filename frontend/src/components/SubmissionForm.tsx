@@ -11,7 +11,7 @@ export default function SubmissionForm() {
     
     //Used in the console of the browser to verify the frontend is working as intended
     debugger;
-    const url = 'https://speed-5002-backend.vercel.app/api/bibSubmit';
+    const url = 'http://localhost:8082/api/bibtex';
     
     //Data transferring itself is in a try-catch statement to catch errors separate to the post command itself
     try{
