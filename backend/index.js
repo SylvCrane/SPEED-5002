@@ -9,6 +9,7 @@ const cors = require('cors');
 
 // routes
 const researchPapers = require('./app/routes/api/researchPapers');
+const bibSubmitter = require('./app/routes/api/bibSubmit');
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.get('/', (req, res) => res.send('Hello world!'));
 
 // use Routes
 app.use('/api/researchPapers', researchPapers);
-// app.use('/api/bibSubmit', bibSubmitter);
+app.use('/api/bibSubmit', bibSubmitter);    
 
 const port = process.env.PORT || 8082;
 

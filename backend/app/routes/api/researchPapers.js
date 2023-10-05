@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const emailService = require('./emailService');
+
+TEST_EMAIL = 'gdr7663@autuni.ac.nz'
 
 // Load models
 const ModerationQueue = require('../../models/moderationQueue');
@@ -57,47 +60,6 @@ router.get('/:type/:id', (req, res) => {
     }
 });
 
-<<<<<<< Updated upstream
-router.post('/:type', (req, res) => {
-    try {
-        const Model = getModel(req.params.type);
-        Model.create(req.body)
-            .then(paper => res.json({ msg: `Research Paper added to ${req.params.type} successfully` }))
-            .catch(err => res.status(400).json({ error: err.message }));
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
-
-// router.put('/:type/:id', (req, res) => {
-//     try {
-//         const Model = getModel(req.params.type);
-//         Model.findByIdAndUpdate(req.params.id, req.body)
-//             .then(paper => res.json({ msg: `Updated successfully in ${req.params.type}` }))
-//             .catch(err => res.status(400).json({ error: err.message }));
-//     } catch (error) {
-//         res.status(400).json({ error: error.message });
-//     }
-// });
-
-router.delete('/:type/:id', (req, res) => {
-    try {
-        const Model = getModel(req.params.type);
-        Model.findByIdAndRemove(req.params.id)
-            .then(paper => {
-                let message;
-                if (req.params.type === 'moderation') {
-                    message = "Paper denied and removed from moderation queue.";
-                } else {
-                    message = `Research Paper entry deleted from ${req.params.type} successfully`;
-                }
-                res.json({ msg: message });
-            })
-            .catch(err => res.status(404).json({ error: err.message }));
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-=======
 router.post('/:type', async (req, res) => {
   try {
       const Model = getModel(req.params.type);
@@ -148,7 +110,6 @@ router.delete("/:type/:id", (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
->>>>>>> Stashed changes
 });
 
 
