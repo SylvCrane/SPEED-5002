@@ -35,20 +35,11 @@ export default function SubmissionForm() {
     }
   };
 
-  const onSubmit = (data:any) => {
+  const onSubmit = (data: any) => {
     const url = 'http://localhost:8082/api/researchPapers/moderation';
 
     const realAuthors = data.authors.split(",");
     data.authors = realAuthors;
-    
-    data.description = "";
-    if (data.claim) { // changed from data.claims to data.claim
-      data.description += "Claim: " + data.claim;
-    }
-
-    if (data.evidence) {
-      data.description += (data.description ? " | " : "") + "Evidence: " + data.evidence;
-    }
 
     const requestOptions = {
       method: 'POST',
@@ -69,42 +60,48 @@ export default function SubmissionForm() {
   };
 
   return (
-    <><><form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("title")} placeholder="Title" />
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input {...register("title")} placeholder="Title" />
 
-      <p>
-        <input {...register("authors")} placeholder="Authors" />
-      </p>
+        <p>
+          <input {...register("authors")} placeholder="Authors (comma separated)" />
+        </p>
 
-      <p>
-        <input {...register("source")} placeholder="Source" />
-      </p>
+        <p>
+          <input {...register("journalName")} placeholder="Journal Name" />
+        </p>
 
-      <p>
-        <input {...register("publicationYear")} placeholder="Publication Year" />
-      </p>
+        <p>
+          <input {...register("publicationYear")} placeholder="Publication Year" />
+        </p>
 
-      <p>
-        <input {...register("doi")} placeholder="DOI" />
-      </p>
+        <p>
+          <input {...register("volume")} placeholder="Volume" />
+        </p>
 
-      <p>
-        <input {...register("claim")} placeholder="Claim" />
-      </p>
+        <p>
+          <input {...register("number")} placeholder="Number" />
+        </p>
 
-      <p>
-        <input {...register("evidence")} placeholder="Evidence" />
-      </p>
+        <p>
+          <input {...register("pages")} placeholder="Pages" />
+        </p>
 
-      <input type="submit" value="manualForm"/>
-    </form>
-    <br />
-    <label>Submit using bibtex</label>
-    <form onSubmit={handleBibSubmit} encType='multipart/form-data'>
+        <p>
+          <input {...register("doi")} placeholder="DOI" />
+        </p>
+
+        <input type="submit" value="Submit Manual Form"/>
+      </form>
+
+      <br />
+
+      <label>Submit using bibtex</label>
+      <form onSubmit={handleBibSubmit} encType='multipart/form-data'>
         <input type="file" name="bibtex" accept=".txt" />
-        <input type="submit" value = "bibForm"/>
-    </form>
-    </>
+        <input type="submit" value="Submit BibForm"/>
+      </form>
     </>
   );
 }
