@@ -9,30 +9,23 @@ const ApprovedPaperSchema = new mongoose.Schema({
     type: [String], // An array of strings
     required: true,
   },
-  journalName: {  
+  source: {
     type: String,
     required: true,
   },
-  publicationYear: {  
+  publicationYear: {
     type: Number,
     required: true,
   },
-  volume: {  
-    type: Number,
-    required: true,
-  },
-  number: {  
-    type: Number,
-    required: true,
-  },
-  pages: {  
+  doi: {
     type: String,
     required: true,
   },
-  doi: {  
+  description: {
     type: String,
     required: true,
-  },
+  }
 });
+
 
 module.exports = ApprovedPaper = mongoose.model('ApprovedPaper', ApprovedPaperSchema);
