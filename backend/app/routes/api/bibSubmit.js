@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fsPromise = require('fs/promises');
-const ResearchPaper = require('../../model/researchPaper');
+const ResearchPaper = require('../../models/researchPaper');
 const multer = require('multer');
 
 const memoryBuff = multer.memoryStorage()
