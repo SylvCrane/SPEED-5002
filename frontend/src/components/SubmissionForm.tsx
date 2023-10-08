@@ -5,13 +5,13 @@ import axios from 'axios';
 export default function SubmissionForm() {
   const { register, handleSubmit } = useForm();
 
-  //The following function is used to process the submission of a Bib form. 
+  // The following function is used to process the submission of a Bib form. 
   const handleBibSubmit = (e: any) => {
     e.preventDefault();
     
     //Used in the console of the browser to verify the frontend is working as intended
     debugger;
-    const url = 'https://speed-5002-backend.vercel.app/api/bibSubmit';
+    const url = 'http://localhost:8082/api/bibtex';
     
     //Data transferring itself is in a try-catch statement to catch errors separate to the post command itself
     try{
@@ -36,18 +36,18 @@ export default function SubmissionForm() {
   };
 
   const onSubmit = (data:any) => {
-    const url = 'https://speed-5002-backend.vercel.app/api/researchPapers';
+    const url = 'http://localhost:8082/api/researchPapers/moderation';
 
-    const realAuthors = data.authors.split(",")
+    const realAuthors = data.authors.split(",");
     data.authors = realAuthors;
     
-    data.description = ""
-    if (data.claim) {
+    data.description = "";
+    if (data.claim) { // changed from data.claims to data.claim
       data.description += "Claim: " + data.claim;
     }
 
     if (data.evidence) {
-      data.description += "Evidence: " + data.evidence;
+      data.description += (data.description ? " | " : "") + "Evidence: " + data.evidence;
     }
 
     const requestOptions = {
@@ -103,6 +103,8 @@ export default function SubmissionForm() {
     <form onSubmit={handleBibSubmit} encType='multipart/form-data'>
         <input type="file" name="bibtex" accept=".txt" />
         <input type="submit" value = "bibForm"/>
-    </form></></>
+    </form>
+    </>
+    </>
   );
 }

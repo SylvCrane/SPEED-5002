@@ -1,8 +1,8 @@
 // index.js
 
 const express = require('express');
-const dotenv = require('dotenv')
-dotenv.config({ path: './.env' })
+const dotenv = require('dotenv');
+dotenv.config({ path: './.env' });
 
 const connectDB = require('./app/config/db');
 const cors = require('cors');
@@ -26,9 +26,8 @@ app.get('/', (req, res) => res.send('Hello world!'));
 
 // use Routes
 app.use('/api/researchPapers', researchPapers);
-app.use('/api/bibSubmit', bibSubmitter);
+app.use('/api/bibSubmit', bibSubmitter);    
 
 const port = process.env.PORT || 8082;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
-
