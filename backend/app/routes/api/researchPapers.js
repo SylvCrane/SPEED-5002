@@ -7,6 +7,7 @@ TEST_EMAIL = 'gdr7663@autuni.ac.nz'
 // Load models
 const ModerationQueue = require('../../models/moderationQueue');
 const ApprovedPaper = require('../../models/approvedPaper');
+const AnalyzedPaper = require('../../models/analyzedPaper')
 
 router.put("/approved/:id", async (req, res) => {
     const paperId = req.params.id;
@@ -31,6 +32,8 @@ const getModel = (type) => {
             return ApprovedPaper;
         case 'moderation':
             return ModerationQueue;
+        case'analyzed':
+            return AnalyzedPaper;
         default:
             throw new Error('Invalid type');
     }

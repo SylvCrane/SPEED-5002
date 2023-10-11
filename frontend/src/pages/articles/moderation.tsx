@@ -39,7 +39,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
   const fetchPapers = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8082/api/researchPapers/moderation"
+        "https://speed-5002-backend.vercel.app/api/researchPapers/moderation"
       );
       const data = await response.json();
       setPapers(data);
@@ -54,7 +54,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
   const handleClearAllApproved = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8082/api/researchPapers/approved`,
+        `https://speed-5002-backend.vercel.app/api/researchPapers/approved`,
         {
           method: "DELETE",
         }
@@ -70,7 +70,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
   const handleClearAllModeration = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8082/api/researchPapers/moderation`,
+        `https://speed-5002-backend.vercel.app/api/researchPapers/moderation`,
         {
           method: "DELETE",
         }
@@ -86,7 +86,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
   const handleApprove = async (_id: string) => {
     try {
       const response = await fetch(
-        `http://localhost:8082/api/researchPapers/approved/${_id}`,
+        `https://speed-5002-backend.vercel.app/api/researchPapers/approved/${_id}`,
         {
           method: "PUT",
         }
@@ -104,7 +104,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
     console.log("Denying ID:", id);
     try {
       const response = await fetch(
-        `http://localhost:8082/api/researchPapers/moderation/${id}`,
+        `https://speed-5002-backend.vercel.app/api/researchPapers/moderation/${id}`,
         {
           method: "DELETE",
         }
@@ -122,7 +122,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
   const fetchApprovedPapers = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8082/api/researchPapers/approved"
+        "https://speed-5002-backend.vercel.app/api/researchPapers/approved"
       );
       const data = await response.json();
       setApprovedPapers(data);
@@ -135,7 +135,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
   const handleRemoveApproved = async (_id: string) => {
     try {
       const response = await fetch(
-        `http://localhost:8082/api/researchPapers/approved/${_id}`,
+        `https://speed-5002-backend.vercel.app/api/researchPapers/approved/${_id}`,
         {
           method: "DELETE",
         }
