@@ -18,6 +18,19 @@ router.put("/approved/:id", async (req, res) => {
         const approvedPaper = new ApprovedPaper(paper.toObject());
         await approvedPaper.save();
         await ModerationQueue.findByIdAndDelete(paperId);
+
+        // Notify the analyst that a paper has been approved and ready for analysis
+        try {
+            await emailService.sendNotificationEmail(
+              TEST_EMAIL,  // replace this with the analyst's email or a distribution list email
+              'Paper Approved for Analysis',
+              `A paper titled "${approvedPaper.title}" has been approved and is ready for analysis.`
+            );
+            console.log("Analyst notification email sent.");
+        } catch (emailError) {
+            console.error("Failed to send analyst notification email:", emailError);
+        }
+
         res.json({ msg: "Paper approved and moved." });
     } catch (err) {
         console.error(err.message);
