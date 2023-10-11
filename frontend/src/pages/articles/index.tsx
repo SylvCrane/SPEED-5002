@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 interface ArticlesInterface {
   id: string;
   title: string;
-  authors: string;
-  source: string;
-  pubyear: string;
+  authors: string[];
+  journalName: string;
+  publicationYear: number;
+  volume: number;
+  number: number;
+  pages: string;
   doi: string;
-  description: string;
 }
 
 type ArticlesProps = {
@@ -20,10 +22,12 @@ const Articles: NextPage<ArticlesProps> = ({ articles: initialArticles }) => {
   const headers: { key: keyof ArticlesInterface; label: string }[] = [
     { key: "title", label: "Title" },
     { key: "authors", label: "Authors" },
-    { key: "source", label: "Source" },
-    { key: "pubyear", label: "Publication Year" },
-    { key: "doi", label: "DOI" },
-    { key: "description", label: "Description" }
+    { key: "journalName", label: "Journal Name" },
+    { key: "publicationYear", label: "Publication Year" },
+    { key: "volume", label: "Volume" },
+    { key: "number", label: "Number" },
+    { key: "pages", label: "Pages" },
+    { key: "doi", label: "DOI" }
   ];
 
   const [articles, setArticles] = useState(initialArticles);
@@ -39,10 +43,12 @@ const Articles: NextPage<ArticlesProps> = ({ articles: initialArticles }) => {
           id: article.id ?? article._id,
           title: article.title,
           authors: article.authors,
-          source: article.source,
-          pubyear: article.publicationYear,
+          journalName: article.journalName,
+          publicationYear: article.publicationYear,
+          volume: article.volume,
+          number: article.number,
+          pages: article.pages,
           doi: article.doi,
-          description: article.description
         }));
         setArticles(fetchedArticles);
         setIsLoading(false); // Data has been fetched

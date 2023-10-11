@@ -20,10 +20,12 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
   const headers = [
     { key: "title", label: "Title" },
     { key: "authors", label: "Authors" },
-    { key: "source", label: "Source" },
+    { key: "journalName", label: "Journal Name" },
     { key: "publicationYear", label: "Publication Year" },
+    { key: "volume", label: "Volume" },
+    { key: "number", label: "Number" },
+    { key: "pages", label: "Pages" },
     { key: "doi", label: "DOI" },
-    { key: "description", label: "Description" },
     { key: "action", label: "Action" },
   ];
 
