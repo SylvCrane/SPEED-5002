@@ -6,10 +6,10 @@ const AnalyzedPaperSchema = new mongoose.Schema({
     required: true,
   },
   authors: {
-    type: [String], // An array of strings
+    type: [String],  // An array of strings
     required: true,
   },
-  source: {
+  journalName: {
     type: String,
     required: true,
   },
@@ -17,13 +17,33 @@ const AnalyzedPaperSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  volume: {
+    type: Number,
+    required: true,
+  },
+  number: {
+    type: Number,
+    required: true,
+  },
+  pages: {
+    type: String,
+    required: true,
+  },
   doi: {
     type: String,
     required: true,
   },
-  description: {
+  practice: {
     type: String,
     required: true,
+  },
+  claim: {
+    type: String,
+    required: true,
+  },
+  rating: {
+    type: Double,
+    required: true
   }
 });
 
