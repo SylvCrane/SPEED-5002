@@ -9,7 +9,7 @@ interface PaperInterface {
   title: string;
   authors: string[];
   source: string;
-  pubyear: number;
+  publicationYear: number;
   doi: string;
   description: string;
   // Add any additional fields for analysis
@@ -32,6 +32,7 @@ const Analyst: NextPage<AnalystProps> = ({ papers: initialPapers }) => {
     { key: "number", label: "Number" },
     { key: "pages", label: "Pages" },
     { key: "doi", label: "DOI" },
+    { key: "description", label: "Description"},
     { key: "action", label: "Analyze" },
   ];
 
@@ -47,7 +48,7 @@ const Analyst: NextPage<AnalystProps> = ({ papers: initialPapers }) => {
   const fetchApprovedPapers = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8082/api/researchPapers/approved"
+        "https://speed-5002-backend.vercel.app/api/researchPapers/approved"
       );
       const data = await response.json();
       setPapers(data);
@@ -70,7 +71,7 @@ const Analyst: NextPage<AnalystProps> = ({ papers: initialPapers }) => {
         <div>Loading...</div>
       ) : (
         <>
-          {selectedPaper ? (
+          {selectedPaper && formInView ? (
             // Display a form for analysis
             <AnalysisForm paper={selectedPaper} onAnalysisComplete={() => {
               fetchApprovedPapers();
@@ -94,7 +95,6 @@ const Analyst: NextPage<AnalystProps> = ({ papers: initialPapers }) => {
           )}
         </>
       )}
-      {formInView && selectedPaper && <AnalysisForm paper={selectedPaper} />}
     </div>
   );
 };
