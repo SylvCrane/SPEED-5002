@@ -42,7 +42,7 @@ const AnalyzedPaperSchema = new mongoose.Schema({
     required: true,
   },
   rating: {
-    type: Double,
+    type: Float64Array,
     required: true
   }
 });
