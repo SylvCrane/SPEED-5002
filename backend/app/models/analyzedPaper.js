@@ -42,7 +42,7 @@ const AnalyzedPaperSchema = new mongoose.Schema({
     required: true,
   },
   rating: {
-    type: Decimal128,
+    type: mongoose.Types.Decimal128,
     required: true
   }
 });
