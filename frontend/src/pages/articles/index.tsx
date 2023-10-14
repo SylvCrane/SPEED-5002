@@ -31,7 +31,7 @@ const Articles: NextPage<ArticlesProps> = ({ articles: initialArticles }) => {
 
   useEffect(() => {
     // Fetch articles from the API
-    fetch("http://localhost:8082/api/researchPapers/approved")
+    fetch("https://speed-5002-backend.vercel.app/api/researchPapers/approved")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
