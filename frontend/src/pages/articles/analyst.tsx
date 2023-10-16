@@ -1,13 +1,15 @@
 import { NextPage } from "next";
 import ModerationSortableTable from "../../components/table/ModerationSortableTable";
 import { useEffect, useState } from "react";
+import AnalysisForm from "@/components/AnalysisForm";
+import { useRouter } from 'next/router';
 
 interface PaperInterface {
   _id: string;
   title: string;
   authors: string[];
   source: string;
-  pubyear: number;
+  publicationYear: number;
   doi: string;
   description: string;
   // Add any additional fields for analysis
@@ -18,6 +20,9 @@ type AnalystProps = {
 };
 
 const Analyst: NextPage<AnalystProps> = ({ papers: initialPapers }) => {
+
+  const router = useRouter();
+
   const headers = [
     { key: "title", label: "Title" },
     { key: "authors", label: "Authors" },
@@ -27,12 +32,14 @@ const Analyst: NextPage<AnalystProps> = ({ papers: initialPapers }) => {
     { key: "number", label: "Number" },
     { key: "pages", label: "Pages" },
     { key: "doi", label: "DOI" },
+    { key: "description", label: "Description"},
     { key: "action", label: "Analyze" },
   ];
 
   const [papers, setPapers] = useState(initialPapers);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedPaper, setSelectedPaper] = useState<PaperInterface | null>(null); // Paper selected for analysis
+  const [formInView, setFormInView] = useState(false);
 
   useEffect(() => {
     fetchApprovedPapers();
@@ -41,7 +48,7 @@ const Analyst: NextPage<AnalystProps> = ({ papers: initialPapers }) => {
   const fetchApprovedPapers = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8082/api/researchPapers/approved"
+        "https://speed-5002-backend.vercel.app/api/researchPapers/approved"
       );
       const data = await response.json();
       setPapers(data);
@@ -54,6 +61,7 @@ const Analyst: NextPage<AnalystProps> = ({ papers: initialPapers }) => {
 
   const handleAnalyze = (paper: PaperInterface) => {
     setSelectedPaper(paper);
+    setFormInView(true);
   };
 
   return (
@@ -63,7 +71,7 @@ const Analyst: NextPage<AnalystProps> = ({ papers: initialPapers }) => {
         <div>Loading...</div>
       ) : (
         <>
-          {selectedPaper ? (
+          {selectedPaper && formInView ? (
             // Display a form for analysis
             <AnalysisForm paper={selectedPaper} onAnalysisComplete={() => {
               fetchApprovedPapers();

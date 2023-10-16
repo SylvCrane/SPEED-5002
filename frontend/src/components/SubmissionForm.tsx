@@ -11,8 +11,8 @@ export default function SubmissionForm() {
 
     //Used in the console of the browser to verify the frontend is working as intended
     debugger;
-    const url = "http://localhost:8082/api/bibtex";
-
+    const url = 'https://speed-5002-backend.vercel.app/api/bibSubmit';
+    
     //Data transferring itself is in a try-catch statement to catch errors separate to the post command itself
     try {
       //FormData used to process file
@@ -36,8 +36,8 @@ export default function SubmissionForm() {
     }
   };
 
-  const onSubmit = (data: any) => {
-    const url = "http://localhost:8082/api/researchPapers/moderation";
+  const onSubmit = (data:any) => {
+    const url = 'https://speed-5002-backend.vercel.app/api/researchPapers/moderation';
 
     const realAuthors = data.authors.split(",");
     data.authors = realAuthors;
