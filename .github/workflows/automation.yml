@@ -22,7 +22,7 @@ jobs:
         run: |
          cd frontend
          npm ci
-         ls
+         npx jest
 
 
      
