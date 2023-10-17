@@ -18,8 +18,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build
-        run: |
-          cd frontend
-          npm run dev
+      - name: cd frontend
+        run: cd frontend
+      
+      - name: npm run dev
+        run: npm run dev
+          
         
