@@ -48,6 +48,8 @@ export default function AnalysisForm( paper: AnalystProps) {
             .catch(error => {
               console.error('Error:', error);
             });
+        
+        location.reload();
     };
 
     return (
