@@ -32,6 +32,8 @@ export default function AnalysisForm( paper: AnalystProps) {
         const arrayAuthors = data.authors.split(",");
         data.authors = arrayAuthors;
 
+        data.rating = 0.0;
+
         const requestOptions = {
             method: 'PUT',
             headers: {
