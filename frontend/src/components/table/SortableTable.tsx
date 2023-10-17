@@ -15,6 +15,14 @@ const SortableTable: React.FC<SortableTableProps> = ({ headers, data = [] }) => 
     direction: "ascending",
   })
   const [filterValues, setFilterValues] = useState({})
+
+  const [columnVisibility, setColumnVisibility] = useState(
+    headers.reduce((acc, header) => {
+      acc[header.key] = true; // Initialize all columns as visible
+      return acc;
+    }, {})
+  );
+  
 ;
 
 
@@ -86,13 +94,33 @@ const SortableTable: React.FC<SortableTableProps> = ({ headers, data = [] }) => 
   };
 
   const sortedAndFilteredData = applyFilterAndSort(data, filterValues, sortConfig);
+
+  const toggleColumnVisibility = (columnKey) => {
+    setColumnVisibility({
+      ...columnVisibility,
+      [columnKey]: !columnVisibility[columnKey],
+    });
+  };
+
+  const showAllColumns = () => {
+    const updatedVisibility = { ...columnVisibility };
+    for (const key in updatedVisibility) {
+      updatedVisibility[key] = true;
+    }
+    setColumnVisibility(updatedVisibility);
+  };
+  
+  
   
 
   return (
     <table className={styles.table}>
       <thead>
+      <button onClick={showAllColumns}>Show All Columns</button>
         <tr>
-          {headers.map((header) => (
+          {headers.map((header) => {
+            if (columnVisibility[header.key]) {
+        return (
             <th className={styles.th} key={header.key}>
               <div className={styles.filterContainer}></div>
                 <span 
@@ -104,22 +132,36 @@ const SortableTable: React.FC<SortableTableProps> = ({ headers, data = [] }) => 
                 </span>
                 <input
                 type="text"
-            value={filterValues[header.key] || 'Search By'}
+            value={filterValues[header.key] || ''}
             onChange={(e) => handleFilterChange(header.key, e.target.value)}
             className={styles.filterInput}
             placeholder={`Filter ${header.label}`}
           />
-          
+          <button onClick={() => toggleColumnVisibility(header.key)}>
+  {columnVisibility[header.key] ? 'Hide' : 'Show'} {header.label}
+</button>
             </th>
-          ))}
+          );
+        }
+        return null;
+      }
+          )}
         </tr>
       </thead>
       <tbody>
         {sortedAndFilteredData.map((row, i) => (
           <tr key={i}>
-            {headers.map((header) => (
+            
+            {headers.map((header) => {if (columnVisibility[header.key]) {
+        return (
+               (
               <td className={styles.td} key={header.key}>{row[header.key]}</td>
-            ))}
+            ))
+          }
+          return null;
+        })};
+        
+        
           </tr>
         ))}
       </tbody>
