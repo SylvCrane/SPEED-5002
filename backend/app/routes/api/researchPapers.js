@@ -32,13 +32,15 @@ router.put("/analyzedPaper/:id", async (req, res) => {
         const paper = await ApprovedPaper.findById(paperID);
         if (!paper)
         {
-            return res.status(400).json({ msg: "Could not find approved paper "});
+            return res.status(404).json({ msg: "Could not find approved paper "});
         }
-
-        const analyzedPaper = new AnalyzedPaper(paper.toObject());
-        await analyzedPaper.save();
-        await ApprovedPaper.findByIdAndDelete(paperID);
-        res.json({ msg: "Paper analyzed and added to final database "});
+        else
+        {
+            const analyzedPaper = new AnalyzedPaper(req.body);
+            await analyzedPaper.save();
+            await ApprovedPaper.findByIdAndDelete(paperID);
+            res.json({ msg: "Paper analyzed and added to final database "});
+        }
     }
     catch (err)
     {
