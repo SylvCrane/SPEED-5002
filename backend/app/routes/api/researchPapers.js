@@ -26,27 +26,27 @@ router.put("/approved/:id", async (req, res) => {
     }
 });
 
-// router.put("/analyzedPaper/:id", async (req, res) => {
-//     const paperID = req.params.id;
-//     try{
-//         const paper = await ApprovedPaper.findById(paperID);
-//         if (!paper)
-//         {
-//             return res.status(400).json({ msg: "Could not find approved paper "});
-//         }
+router.put("/analyzedPaper/:id", async (req, res) => {
+    const paperID = req.params.id;
+    try{
+        const paper = await ApprovedPaper.findById(paperID);
+        if (!paper)
+        {
+            return res.status(400).json({ msg: "Could not find approved paper "});
+        }
 
-//         const analyzedPaper = new AnalyzedPaper(paper.toObject());
-//         await analyzedPaper.save();
-//         await ApprovedPaper.findByIdAndDelete(paperID);
-//         res.json({ msg: "Paper analyzed and added to final database "});
-//     }
-//     catch (err)
-//     {
-//         console.error(err.message);
-//         res.status(500).send("Server error");
-//     }
+        const analyzedPaper = new AnalyzedPaper(paper.toObject());
+        await analyzedPaper.save();
+        await ApprovedPaper.findByIdAndDelete(paperID);
+        res.json({ msg: "Paper analyzed and added to final database "});
+    }
+    catch (err)
+    {
+        console.error(err.message);
+        res.status(500).send("Server error");
+    }
 
-// });
+});
 
 const getModel = (type) => {
     switch (type) {
