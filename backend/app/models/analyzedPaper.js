@@ -21,10 +21,6 @@ const AnalyzedPaperSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  number: {
-    type: Number,
-    required: true,
-  },
   pages: {
     type: String,
     required: true,

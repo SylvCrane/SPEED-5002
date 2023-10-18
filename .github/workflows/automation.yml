@@ -13,10 +13,18 @@ jobs:
     strategy:
       matrix:
         next-version: [13.x]
-    
+
     steps:
-      - name: Build
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: install and run tests
         run: |
-          cd frontend
-          npm run dev
+         cd frontend
+         npm ci
+         npx jest
+
+
+     
+          
         

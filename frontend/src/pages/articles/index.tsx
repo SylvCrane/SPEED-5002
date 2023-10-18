@@ -3,15 +3,16 @@ import SortableTable from "../../components/table/SortableTable";
 import { useEffect, useState } from "react";
 
 interface ArticlesInterface {
-  id: string;
+  _id: string;
   title: string;
-  authors: string[];
+  authors: string;
   journalName: string;
   publicationYear: number;
   volume: number;
-  number: number;
   pages: string;
   doi: string;
+  practice: string;
+  claim: string;
 }
 
 type ArticlesProps = {
@@ -22,12 +23,13 @@ const Articles: NextPage<ArticlesProps> = ({ articles: initialArticles }) => {
   const headers: { key: keyof ArticlesInterface; label: string }[] = [
     { key: "title", label: "Title" },
     { key: "authors", label: "Authors" },
-    { key: "journalName", label: "Journal Name" },
+    { key: "journalName", label: "Journal Name"},
     { key: "publicationYear", label: "Publication Year" },
     { key: "volume", label: "Volume" },
-    { key: "number", label: "Number" },
     { key: "pages", label: "Pages" },
-    { key: "doi", label: "DOI" }
+    { key: "doi", label: "DOI" },
+    { key: "practice", label: "SE Practice" },
+    { key: "claim", label: "Claim" },
   ];
 
   const [articles, setArticles] = useState(initialArticles);
@@ -35,7 +37,7 @@ const Articles: NextPage<ArticlesProps> = ({ articles: initialArticles }) => {
 
   useEffect(() => {
     // Fetch articles from the API
-    fetch("https://speed-5002-backend.vercel.app/api/researchPapers/approved")
+    fetch("https://speed-5002-backend.vercel.app/api/researchPapers/analyzed")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -46,9 +48,10 @@ const Articles: NextPage<ArticlesProps> = ({ articles: initialArticles }) => {
           journalName: article.journalName,
           publicationYear: article.publicationYear,
           volume: article.volume,
-          number: article.number,
           pages: article.pages,
           doi: article.doi,
+          practice: article.practice,
+          claim: article.claim          
         }));
         setArticles(fetchedArticles);
         setIsLoading(false); // Data has been fetched

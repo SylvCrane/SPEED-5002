@@ -4,6 +4,7 @@ import axios from "axios";
 
 export default function SubmissionForm() {
   const { register, handleSubmit } = useForm();
+   const [ content, setContent ] = useState("");
 
   // The following function is used to process the submission of a Bib form.
   const handleBibSubmit = (e: any) => {
@@ -11,8 +12,8 @@ export default function SubmissionForm() {
 
     //Used in the console of the browser to verify the frontend is working as intended
     debugger;
-    const url = 'https://speed-5002-backend.vercel.app/api/bibSubmit';
-    
+    const url = "https://speed-5002-backend.vercel.app/api/bibSubmit";
+
     //Data transferring itself is in a try-catch statement to catch errors separate to the post command itself
     try {
       //FormData used to process file
@@ -36,22 +37,22 @@ export default function SubmissionForm() {
     }
   };
 
-  const onSubmit = (data:any) => {
-    const url = 'https://speed-5002-backend.vercel.app/api/researchPapers/moderation';
+  const onSubmit = (data: any) => {
+    const url =
+      "https://speed-5002-backend.vercel.app/api/researchPapers/moderation";
 
     const realAuthors = data.authors.split(",");
     data.authors = realAuthors;
 
     data.description = "";
     if (data.claim) {
-      // changed from data.claims to data.claim
       data.description += "Claim: " + data.claim;
     }
 
-    if (data.evidence) {
-      data.description +=
-        (data.description ? " | " : "") + "Evidence: " + data.evidence;
-    }
+    // if (data.evidence) {
+    //   data.description +=
+    //     (data.description ? " | " : "") + "Evidence: " + data.evidence;
+    // }
 
     const requestOptions = {
       method: "POST",
@@ -65,9 +66,13 @@ export default function SubmissionForm() {
       .then((response) => response.json())
       .then((responseData) => {
         console.log("Response:", responseData);
+        setContent(content + "The article has been added to moderation queue!");
+
       })
       .catch((error) => {
         console.error("Error:", error);
+        setContent(content + "The article has failed to be submitted. Ensure all fields are filled out correctly!");
+
       });
   };
 
@@ -78,10 +83,7 @@ export default function SubmissionForm() {
           <input {...register("title")} placeholder="Title" />
 
           <p>
-            <input
-              {...register("authors")}
-              placeholder="Authors (comma separated)"
-            />
+            <input {...register("authors")} placeholder="Authors" />
           </p>
 
           <p>
@@ -90,23 +92,17 @@ export default function SubmissionForm() {
 
           <p>
             <input
-              {...register("publicationYear", { valueAsNumber: true })}
-              placeholder="Publication Year"
+              {...register("publicationYear")}
+              placeholder="Year of Publication"
             />
           </p>
 
           <p>
-            <input
-              {...register("volume", { valueAsNumber: true })}
-              placeholder="Volume"
-            />
+            <input {...register("volume")} placeholder="Volume" />
           </p>
 
           <p>
-            <input
-              {...register("number", { valueAsNumber: true })}
-              placeholder="Number"
-            />
+            <input {...register("number")} placeholder="Number" />
           </p>
 
           <p>
@@ -117,7 +113,7 @@ export default function SubmissionForm() {
             <input {...register("doi")} placeholder="DOI" />
           </p>
 
-          <input type="submit" value="Submit Paper" />
+          <input type="submit" value="manualForm" />
         </form>
         <br />
         <label>Submit using bibtex</label>

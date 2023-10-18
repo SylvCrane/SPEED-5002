@@ -24,13 +24,18 @@ export default function AnalysisForm( paper: AnalystProps) {
     
 
     const { register, handleSubmit } = useForm();
+    const [ content, setContent ] = useState("");
 
     const onSubmit = (data:any) => {
         debugger;
         const url = `https://speed-5002-backend.vercel.app/api/researchPapers/analyzedPaper/${paper.paper._id}`;
+        const testURL = `http://localhost:8082/api/researchPapers/analyzedPaper/${paper.paper._id}`;
+
 
         const arrayAuthors = data.authors.split(",");
         data.authors = arrayAuthors;
+
+        data.rating = 0.0;
 
         const requestOptions = {
             method: 'PUT',
@@ -44,51 +49,56 @@ export default function AnalysisForm( paper: AnalystProps) {
             .then(response => response.json())
             .then(responseData => {
               console.log('Response:', responseData);
+              setContent(content + "The article has been analyzed and submitted successfully!");
+
             })
             .catch(error => {
               console.error('Error:', error);
+              setContent(content + "The article has failed to be analyzed. Ensure that each field is filled and that the Publication Year and Volume are numbers.");
             });
+        
+        
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <><form onSubmit={handleSubmit(onSubmit)}>
             <table>
                 <tbody>
                     <tr>
-                        <td align="left">Authors:</td>
-                        <td><input{...register("authors")} defaultValue={paper.paper.authors} /></td>
+                        <td align="left"><label htmlFor="auth">Authors:</label></td>
+                        <td><input id="auth" {...register("authors")} defaultValue={paper.paper.authors} /></td>
                     </tr>
                     <tr>
-                        <td align="left">Title:</td>
-                        <td><input {...register("title")} defaultValue={paper.paper.title} /></td>
+                    <td align="left"><label htmlFor="titl">Title:</label></td>
+                        <td><input id="titl" {...register("title")} defaultValue={paper.paper.title} /></td>
                     </tr>
                     <tr>
-                        <td align="left">Journal:</td>
-                        <td><input {...register("journalName")} /></td>
+                    <td align="left"><label htmlFor="journ">Journal:</label></td>
+                        <td><input id="journ" {...register("journalName")} /></td>
                     </tr>
                     <tr>
-                        <td align="left">Publication Year:</td>
-                        <td><input {...register("publicationYear")} defaultValue={paper.paper.publicationYear}/></td>
+                    <td align="left"><label htmlFor="pubyear">Publication Year:</label></td>
+                        <td><input id="pubyear" {...register("publicationYear")} defaultValue={paper.paper.publicationYear} /></td>
                     </tr>
                     <tr>
-                        <td align="left">Volume:</td>
-                        <td><input {...register("volume")}/></td>
+                    <td align="left"><label htmlFor="vol">Volume:</label></td>
+                        <td><input id="vol" {...register("volume")} /></td>
                     </tr>
                     <tr>
-                        <td align="left">Pages:</td>
-                        <td><input {...register("pages")}/></td>
+                    <td align="left"><label htmlFor="pages">Pages:</label></td>
+                        <td><input id="pages" {...register("pages")} /></td>
                     </tr>
                     <tr>
-                        <td align="left">DOI:</td>
-                        <td><input {...register("doi")} defaultValue={paper.paper.doi}/></td>
+                    <td align="left"><label htmlFor="doi">DOI:</label></td>
+                        <td><input id="doi" {...register("doi")} defaultValue={paper.paper.doi} /></td>
                     </tr>
                     <tr>
-                        <td align="left">SE Practice:</td>
-                        <td><input {...register("practice")}/></td>
+                    <td align="left"><label htmlFor="prac">SE Practice:</label></td>
+                        <td><input id="prac" {...register("practice")} /></td>
                     </tr>
                     <tr>
-                        <td align="left">Claim:</td>
-                        <td><textarea {...register("claim")} rows={5} cols={30} style={{ width: '200px', height: '60px' }}/></td>
+                    <td align="left"><label htmlFor="claim">Claim:</label></td>
+                        <td><textarea id="claim" {...register("claim")} rows={5} cols={30} style={{ width: '200px', height: '60px' }} /></td>
                     </tr>
                     <tr>
                         <td align="left">Submit</td>
@@ -97,5 +107,8 @@ export default function AnalysisForm( paper: AnalystProps) {
                 </tbody>
             </table>
         </form>
+        <div>
+            {content}
+        </div></>
     )
 }
