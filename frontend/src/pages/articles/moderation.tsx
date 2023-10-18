@@ -6,10 +6,12 @@ interface PaperInterface {
   _id: string;
   title: string;
   authors: string[];
-  source: string;
-  pubyear: number;
+  journalName: string; // Renamed from "source"
+  publicationYear: number; // Renamed from "pubyear"
+  volume: number;
+  number: number;
+  pages: string;
   doi: string;
-  description: string;
 }
 
 type ModerationProps = {

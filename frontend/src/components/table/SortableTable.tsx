@@ -159,7 +159,7 @@ const SortableTable: React.FC<SortableTableProps> = ({ headers, data = [] }) => 
             ))
           }
           return null;
-        })};
+        })}
         
         
           </tr>

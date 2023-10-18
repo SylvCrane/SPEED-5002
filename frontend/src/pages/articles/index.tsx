@@ -3,13 +3,16 @@ import SortableTable from "../../components/table/SortableTable";
 import { useEffect, useState } from "react";
 
 interface ArticlesInterface {
-  id: string;
+  _id: string;
   title: string;
   authors: string;
-  source: string;
-  pubyear: string;
+  journalName: string;
+  publicationYear: number;
+  volume: number;
+  pages: string;
   doi: string;
-  description: string;
+  practice: string;
+  claim: string;
 }
 
 type ArticlesProps = {
@@ -20,10 +23,13 @@ const Articles: NextPage<ArticlesProps> = ({ articles: initialArticles }) => {
   const headers: { key: keyof ArticlesInterface; label: string }[] = [
     { key: "title", label: "Title" },
     { key: "authors", label: "Authors" },
-    { key: "source", label: "Source" },
-    { key: "pubyear", label: "Publication Year" },
+    { key: "journalName", label: "Journal Name"},
+    { key: "publicationYear", label: "Publication Year" },
+    { key: "volume", label: "Volume" },
+    { key: "pages", label: "Pages" },
     { key: "doi", label: "DOI" },
-    { key: "description", label: "Description" }
+    { key: "practice", label: "SE Practice" },
+    { key: "claim", label: "Claim" },
   ];
 
   const [articles, setArticles] = useState(initialArticles);
@@ -31,7 +37,7 @@ const Articles: NextPage<ArticlesProps> = ({ articles: initialArticles }) => {
 
   useEffect(() => {
     // Fetch articles from the API
-    fetch("https://speed-5002-backend.vercel.app/api/researchPapers/approved")
+    fetch("https://speed-5002-backend.vercel.app/api/researchPapers/analyzed")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -39,10 +45,13 @@ const Articles: NextPage<ArticlesProps> = ({ articles: initialArticles }) => {
           id: article.id ?? article._id,
           title: article.title,
           authors: article.authors,
-          source: article.source,
-          pubyear: article.publicationYear,
+          journalName: article.journalName,
+          publicationYear: article.publicationYear,
+          volume: article.volume,
+          pages: article.pages,
           doi: article.doi,
-          description: article.description
+          practice: article.practice,
+          claim: article.claim          
         }));
         setArticles(fetchedArticles);
         setIsLoading(false); // Data has been fetched
