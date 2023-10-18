@@ -17,10 +17,11 @@ const SortableTable: React.FC<SortableTableProps> = ({ headers, data = [] }) => 
   const [filterValues, setFilterValues] = useState({})
 
   const [columnVisibility, setColumnVisibility] = useState(
-    headers.reduce((acc, header) => {
-      acc[header.key] = true; // Initialize all columns as visible
+    headers.reduce<{ [key: string]: boolean }>((acc, header) => {
+      acc[header.key] = true;
       return acc;
-    }, {})
+  }, {})
+  
   );
   
 ;

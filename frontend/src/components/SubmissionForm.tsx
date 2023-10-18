@@ -121,6 +121,10 @@ export default function SubmissionForm() {
           <input type="file" name="bibtex" accept=".txt" />
           <input type="submit" value="bibForm" />
         </form>
+
+        <div>
+            {content}
+        </div>
       </>
     </>
   );

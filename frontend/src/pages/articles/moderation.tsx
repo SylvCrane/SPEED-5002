@@ -6,8 +6,8 @@ interface PaperInterface {
   _id: string;
   title: string;
   authors: string[];
-  journalName: string; // Renamed from "source"
-  publicationYear: number; // Renamed from "pubyear"
+  journalName: string;
+  publicationYear: number;
   volume: number;
   number: number;
   pages: string;
@@ -23,7 +23,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
     { key: "title", label: "Title" },
     { key: "authors", label: "Authors" },
     { key: "journalName", label: "Journal Name" },
-    { key: "publicationYear", label: "Publication Year" },
+    { key: "publicationYear", label: "Year of Publication" },
     { key: "volume", label: "Volume" },
     { key: "number", label: "Number" },
     { key: "pages", label: "Pages" },
@@ -34,6 +34,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
   const [papers, setPapers] = useState(initialPapers);
   const [approvedPapers, setApprovedPapers] = useState<PaperInterface[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [content, setContent] = useState("");
 
   useEffect(() => {
     fetchPapers();
@@ -65,6 +66,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
       );
       const result = await response.json();
       console.log(result);
+      setContent(content + "All approved papers have been cleared!");
       fetchPapers(); // Refresh the moderation queue list after clearing all papers
       fetchApprovedPapers(); // Refresh the list after clearing all approved papers
     } catch (error) {
@@ -81,6 +83,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
       );
       const result = await response.json();
       console.log(result);
+      setContent(content + "Moderation queue has been cleared!");
       fetchPapers(); // Refresh the moderation queue list after clearing all papers
       fetchApprovedPapers(); // Refresh the list after clearing all approved papers
     } catch (error) {
@@ -99,6 +102,9 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
       console.log(result);
       fetchPapers(); // Refresh the moderation queue list after clearing all papers
       fetchApprovedPapers(); // Refresh the list after clearing all approved papers
+      setContent(
+        content + "The article has been approved and ready for analysis!"
+      );
     } catch (error) {
       console.error("Error approving paper:", error);
     }
@@ -117,6 +123,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
       console.log(result);
       fetchPapers(); // Refresh the moderation queue list after clearing all papers
       fetchApprovedPapers(); // Refresh the list after clearing all approved papers
+      setContent(content + "The article has been denied!");
     } catch (error) {
       console.error("Error denying paper:", error);
     }
@@ -146,6 +153,7 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
       );
       const result = await response.json();
       console.log(result);
+      setContent(content + "Approved artivel has been removed!");
       fetchPapers(); // Refresh the moderation queue list after clearing all papers
       fetchApprovedPapers(); // Refresh the list after clearing all approved papers
     } catch (error) {
@@ -190,12 +198,13 @@ const Moderation: NextPage<ModerationProps> = ({ papers: initialPapers }) => {
                     Remove
                   </button>
                 </div>
-              ),
+              )
             }))}
           />
           <button onClick={handleClearAllApproved}>
             Clear All Approved Papers
           </button>
+          <div>{content}</div>
         </>
       )}
     </div>
